@@ -49,7 +49,15 @@ export async function get(store, id) {
   const db = await getDB();
   return new Promise((resolve, reject) => {
     const r = db.transaction(store).objectStore(store).get(id);
-    r.onsuccess = () => resolve(r.result);
+    r.onsuccess = () => {
+      if (r.result !== undefined || typeof id !== "string" || !/^\d+$/.test(id)) {
+        resolve(r.result);
+        return;
+      }
+      const r2 = db.transaction(store).objectStore(store).get(Number(id));
+      r2.onsuccess = () => resolve(r2.result);
+      r2.onerror = () => reject(r2.error);
+    };
     r.onerror = () => reject(r.error);
   });
 }
@@ -69,7 +77,8 @@ export async function putMany(store, vals) {
 }
 export async function del(store, id) {
   const db = await getDB();
-  return run(store, "readwrite", (s) => s.delete(id));
+  const key = typeof id === "string" && /^\d+$/.test(id) ? Number(id) : id;
+  return run(store, "readwrite", (s) => s.delete(key));
 }
 
 /* ================= SEED ================= */
