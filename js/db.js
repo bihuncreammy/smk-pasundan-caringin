@@ -80,7 +80,10 @@ export async function seed() {
   }
 
   const existing = await all("kelas");
-  if (existing.length) return;
+  if (existing.length) {
+    await ensureOTKP();
+    return;
+  }
 
   await putMany("kelas", [
     { id: 1, nama: "X RPL 1", tingkat: "X", jurusan: "RPL" },
@@ -217,10 +220,89 @@ export async function seed() {
     keterangan: "Dokumen profil sekolah untuk keperluan informasi umum.",
     penulis: "Administrator"
   });
+
+  await ensureOTKP();
 }
 
 function todaySub(days) {
   const d = new Date();
   d.setDate(d.getDate() - days);
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
+async function ensureOTKP() {
+  const kelas = await all("kelas");
+  if (!kelas.some((k) => k.id === 8)) {
+    await put("kelas", { id: 8, nama: "XII OTKP 1", tingkat: "XII", jurusan: "OTKP" });
+  }
+
+  const mapels = await all("mapel");
+  const newMapel = [
+    { id: 14, kode: "AKIDAH", nama: "Akidah Akhlak" },
+    { id: 15, kode: "OTKSP", nama: "OTK Sarana Prasarana" },
+    { id: 16, kode: "TIK", nama: "TIK" },
+    { id: 17, kode: "HUMAS", nama: "Humas" },
+    { id: 18, kode: "OTKKEP", nama: "OTK Kepegawaian" },
+    { id: 19, kode: "KEU", nama: "Keuangan" },
+    { id: 20, kode: "KWU", nama: "Kewirausahaan" }
+  ];
+  for (const m of newMapel) {
+    if (!mapels.some((x) => x.id === m.id)) await put("mapel", m);
+  }
+
+  const gurus = await all("guru");
+  const newGuru = [
+    { id: 11, nama: "Ustadz Firdaus, S.Ag.", mapel: "Akidah Akhlak", telepon: "" },
+    { id: 12, nama: "Ibu Gina Marlina, S.A.P.", mapel: "OTK Sarana Prasarana", telepon: "" },
+    { id: 13, nama: "Pak Hendra Gunawan, S.Kom.", mapel: "TIK", telepon: "" },
+    { id: 14, nama: "Ibu Intan Puspitasari, S.Sos.", mapel: "Humas", telepon: "" },
+    { id: 15, nama: "Ibu Wulan Dari, S.A.P.", mapel: "OTK Kepegawaian", telepon: "" },
+    { id: 16, nama: "Pak Rizky Ananda, S.E.", mapel: "Keuangan", telepon: "" },
+    { id: 17, nama: "Ibu Nur Aini, S.E.", mapel: "Kewirausahaan", telepon: "" }
+  ];
+  for (const g of newGuru) {
+    if (!gurus.some((x) => x.id === g.id)) await put("guru", g);
+  }
+
+  const jadwal = await all("jadwal");
+  const M = { MTK: 1, BINDO: 2, BING: 3, PAI: 4, PPKN: 5, PJOK: 6, SUNDA: 13, AKIDAH: 14, OTKSP: 15, TIK: 16, HUMAS: 17, OTKKEP: 18, KEU: 19, KWU: 20 };
+  const G = { PAI: 1, MTK: 2, BINDO: 3, BING: 4, PPKN: 6, PJOK: 7, AKIDAH: 11, OTKSP: 12, TIK: 13, HUMAS: 14, OTKKEP: 15, KEU: 16, KWU: 17 };
+  const otkp = {
+    1: [ // SENIN
+      [1, M.BING, G.BING, "R.6"],
+      [2, M.PAI, G.PAI, "Musala"],
+      [3, M.PPKN, G.PPKN, "R.6"],
+      [4, M.AKIDAH, G.AKIDAH, "Musala"]
+    ],
+    2: [ // SELASA
+      [1, M.SUNDA, null, "R.6"],
+      [2, M.OTKSP, G.OTKSP, "Kantor"],
+      [3, M.TIK, G.TIK, "Lab.3"],
+      [4, M.HUMAS, G.HUMAS, "Kantor"],
+      [5, M.OTKKEP, G.OTKKEP, "Kantor"]
+    ],
+    3: [ // RABU
+      [1, M.MTK, G.MTK, "R.6"],
+      [2, M.PJOK, G.PJOK, "Lapang"],
+      [3, M.OTKKEP, G.OTKKEP, "Kantor"],
+      [4, M.OTKSP, G.OTKSP, "Kantor"]
+    ],
+    4: [ // KAMIS
+      [1, M.BINDO, G.BINDO, "R.6"],
+      [2, M.KEU, G.KEU, "Kantor"]
+    ],
+    5: [ // JUMAT
+      [1, M.KWU, G.KWU, "Kantor"],
+      [2, M.HUMAS, G.HUMAS, "Kantor"]
+    ]
+  };
+  for (const [hari, list] of Object.entries(otkp)) {
+    list.forEach(([jamKe, mapelId, guruId, ruang]) => {
+      const id = `j-8-${hari}-${jamKe}`;
+      if (!jadwal.some((x) => x.id === id)) {
+        jadwal.push({ id, kelasId: 8, hari: Number(hari), jamKe, mapelId, guruId, ruang });
+      }
+    });
+  }
+  await putMany("jadwal", jadwal.filter((x) => x.id.startsWith("j-8-")));
 }
