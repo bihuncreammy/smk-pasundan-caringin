@@ -102,7 +102,7 @@ async function renderForm(kelasList, mapels, guruList, absensi, guruOptions, isA
   }).join("");
 
   const info = existing
-    ? `<div class="card" style="border:1.5px solid var(--green-500);margin-bottom:12px"><div class="small"><b>✓ Sudah diinput</b> pada ${formatDateId(state.tanggal)}. Ubah data lalu simpan untuk memperbarui.</div></div>`
+    ? `<div class="card" style="border:1.5px solid var(--blue-500);margin-bottom:12px"><div class="small"><b>✓ Sudah diinput</b> pada ${formatDateId(state.tanggal)}. Ubah data lalu simpan untuk memperbarui.</div></div>`
     : "";
 
   return `

@@ -49,7 +49,7 @@ function listKelas(items) {
       <div class="row-body"><div class="row-title">${esc(k.nama)}</div>
         <div class="row-sub">Tingkat ${esc(k.tingkat)} · Jurusan ${esc(k.jurusan)}</div></div>
       <div class="row-right">
-        <button class="icon-btn" data-edit="${k.id}" style="color:var(--green-600);background:var(--ok-bg);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("edit")}</button>
+        <button class="icon-btn" data-edit="${k.id}" style="color:var(--blue-600);background:var(--blue-100);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("edit")}</button>
         <button class="icon-btn" data-del="${k.id}" style="color:var(--danger);background:var(--danger-bg);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("trash")}</button>
       </div>
     </div>`).join("");
@@ -64,7 +64,7 @@ function listMapel(items) {
       <div class="row-body"><div class="row-title">${esc(m.nama)}</div>
         <div class="row-sub">Kode ${esc(m.kode)}</div></div>
       <div class="row-right">
-        <button class="icon-btn" data-edit="${m.id}" style="color:var(--green-600);background:var(--ok-bg);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("edit")}</button>
+        <button class="icon-btn" data-edit="${m.id}" style="color:var(--blue-600);background:var(--blue-100);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("edit")}</button>
         <button class="icon-btn" data-del="${m.id}" style="color:var(--danger);background:var(--danger-bg);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("trash")}</button>
       </div>
     </div>`).join("");
@@ -79,7 +79,7 @@ function listGuru(items) {
       <div class="row-body"><div class="row-title">${esc(g.nama)}</div>
         <div class="row-sub">${esc(g.mapel || "-")}${g.telepon ? " · " + esc(g.telepon) : ""}</div></div>
       <div class="row-right">
-        <button class="icon-btn" data-edit="${g.id}" style="color:var(--green-600);background:var(--ok-bg);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("edit")}</button>
+        <button class="icon-btn" data-edit="${g.id}" style="color:var(--blue-600);background:var(--blue-100);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("edit")}</button>
         <button class="icon-btn" data-del="${g.id}" style="color:var(--danger);background:var(--danger-bg);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("trash")}</button>
       </div>
     </div>`).join("");
@@ -97,7 +97,7 @@ async function listSiswa(items) {
         <div class="row-body"><div class="row-title">${esc(s.nama)}</div>
           <div class="row-sub">NIS ${esc(s.nis)} · ${esc(k ? k.nama : "-")}</div></div>
         <div class="row-right">
-          <button class="icon-btn" data-edit="${s.id}" style="color:var(--green-600);background:var(--ok-bg);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("edit")}</button>
+          <button class="icon-btn" data-edit="${s.id}" style="color:var(--blue-600);background:var(--blue-100);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("edit")}</button>
           <button class="icon-btn" data-del="${s.id}" style="color:var(--danger);background:var(--danger-bg);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("trash")}</button>
         </div>
       </div>`;
@@ -128,7 +128,7 @@ function listJam(items) {
       <div class="row-body"><div class="row-title">${esc(it.nama)}</div>
         <div class="row-sub">${esc(it.jamMulai)} - ${esc(it.jamSelesai)}</div></div>
       <div class="row-right">
-        <button class="icon-btn" data-edit="${it.id}" style="color:var(--green-600);background:var(--ok-bg);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("edit")}</button>
+        <button class="icon-btn" data-edit="${it.id}" style="color:var(--blue-600);background:var(--blue-100);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("edit")}</button>
         <button class="icon-btn" data-del="${it.id}" style="color:var(--danger);background:var(--danger-bg);width:34px;height:34px;display:grid;place-items:center;border-radius:10px">${ic("trash")}</button>
       </div>
     </div>`).join("");

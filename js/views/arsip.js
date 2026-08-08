@@ -37,7 +37,7 @@ export async function render() {
             <div class="row-sub">${esc(a.penulis || "")}</div>
           </div>
           <div class="row-right">
-            <button class="icon-btn" style="color:var(--green-600);background:var(--ok-bg);width:36px;height:36px;display:grid;place-items:center;border-radius:10px" data-download="${a.id}" title="Unduh">${ic("download")}</button>
+            <button class="icon-btn" style="color:var(--blue-600);background:var(--blue-100);width:36px;height:36px;display:grid;place-items:center;border-radius:10px" data-download="${a.id}" title="Unduh">${ic("download")}</button>
             ${canUpload ? `<button class="icon-btn" style="color:var(--danger);background:var(--danger-bg);width:36px;height:36px;display:grid;place-items:center;border-radius:10px" data-del="${a.id}" title="Hapus">${ic("trash")}</button>` : ""}
           </div>
         </div>`;
